@@ -1,0 +1,23 @@
+# Окружение
+.venv/
+venv/
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Базы данных (демо-база хранится в репозитории)
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+!data/demo.db
+
+# Служебные файлы
+*.log
+Thumbs.db
+.DS_Store
+presentation/~$*

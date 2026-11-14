@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>КлассОнлайн — макет диалога</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: transparent; }
+  body { font-family: "Segoe UI", -apple-system, "Helvetica Neue", Arial, sans-serif; }
+
+  .phone {
+    display: none;
+    width: 720px;
+    height: 1560px;
+    padding: 18px;
+    background: #0E1A2B;
+    border-radius: 84px;
+  }
+  .phone.active { display: block; }
+
+  .screen {
+    width: 684px;
+    height: 1524px;
+    background: #E8EDF2;
+    border-radius: 66px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topbar {
+    height: 118px;
+    flex: 0 0 118px;
+    background: #FFFFFF;
+    border-bottom: 1px solid #E2E8F0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 22px;
+  }
+  .back { font-size: 54px; line-height: 1; color: #2AABEE; margin-top: -10px; font-weight: 300; }
+  .avatar {
+    width: 70px; height: 70px; border-radius: 50%;
+    background: linear-gradient(135deg, #33B4F0, #1E88C7);
+    color: #fff; font-size: 34px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .who { display: flex; flex-direction: column; gap: 3px; }
+  .who .name { font-size: 28px; font-weight: 600; color: #0F172A; letter-spacing: -0.2px; }
+  .who .status { font-size: 20px; color: #7B8BA3; }
+  .dots { margin-left: auto; font-size: 32px; color: #8FA1B8; letter-spacing: 2px; }
+
+  .chat {
+    flex: 1;
+    padding: 22px 22px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 10px;
+    background-color: #E8EDF2;
+    background-image: radial-gradient(#D6E0E9 1.6px, transparent 1.6px);
+    background-size: 44px 44px;
+    background-position: 8px 8px;
+    overflow: hidden;
+  }
+
+  .day {
+    align-self: center;
+    background: rgba(255,255,255,.8);
+    color: #6C7F96;
+    font-size: 17px;
+    padding: 7px 19px;
+    border-radius: 18px;
+    margin-bottom: 2px;
+  }
+
+  .row { display: flex; flex-direction: column; max-width: 89%; flex-shrink: 0; }
+  .row.out { align-self: flex-end; align-items: flex-end; }
+
+  .bubble {
+    background: #FFFFFF;
+    color: #101828;
+    border-radius: 23px;
+    padding: 14px 19px 8px;
+    font-size: 22px;
+    line-height: 1.35;
+    box-shadow: 0 1px 2px rgba(16,24,40,.07);
+  }
+  .out .bubble { background: #DCF8C6; }
+
+  .meta { margin-top: 5px; font-size: 16px; color: #7E8FA3; text-align: right; }
+  .out .meta { color: #5D8A58; }
+  .checks { color: #4AA3E8; letter-spacing: -2px; }
+
+  .keys {
+    width: 100%;
+    max-width: 610px;
+    background: #fff;
+    border-radius: 19px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(16,24,40,.08);
+    align-self: flex-start;
+    flex-shrink: 0;
+  }
+  .key {
+    padding: 18px 14px;
+    text-align: center;
+    color: #2AABEE;
+    font-size: 20px;
+    font-weight: 500;
+    border-top: 1px solid #EDF1F5;
+  }
+  .key:first-child { border-top: none; }
+  .key.primary { font-weight: 600; }
+
+  .composer {
+    height: 100px;
+    flex: 0 0 100px;
+    background: #fff;
+    border-top: 1px solid #E2E8F0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 0 20px;
+  }
+  .plus {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: #F0F4F8; color: #6B7C93;
+    font-size: 32px; line-height: 48px; text-align: center; font-weight: 300;
+  }
+  .field {
+    flex: 1; height: 60px; border-radius: 30px;
+    background: #F0F4F8; color: #93A3B5;
+    font-size: 21px; display: flex; align-items: center; padding: 0 23px;
+  }
+  .mic { width: 44px; height: 44px; color: #8FA1B8; font-size: 28px; text-align: center; line-height: 44px; }
+</style>
+</head>
+<body>
+
+<section class="phone" data-screen="start" role="img" aria-label="Экран бота: главное меню">
+  <div class="screen">
+    <header class="topbar">
+      <div class="back">‹</div>
+      <div class="avatar">К</div>
+      <div class="who">
+        <div class="name">КлассОнлайн</div>
+        <div class="status">бот · онлайн-школа</div>
+      </div>
+      <div class="dots">⋮</div>
+    </header>
+    <main class="chat">
+      <div class="day">Сегодня</div>
+      <div class="row out">
+        <div class="bubble">/start</div>
+        <div class="meta">21:38 <span class="checks">✓✓</span></div>
+      </div>
+      <div class="row">
+        <div class="bubble">👋 Здравствуйте, Данил!<br><br>Это бот онлайн-школы «КлассОнлайн».<br>Помогу записаться на занятие или передать вопрос администратору.<br><br>Выберите тип обращения 👇</div>
+        <div class="meta">21:38</div>
+      </div>
+      <div class="keys">
+        <div class="key primary">📝 Запись на занятие</div>
+        <div class="key">❓ Вопрос по курсу</div>
+        <div class="key">💬 Прочее</div>
+        <div class="key">ℹ️ Помощь</div>
+      </div>
+    </main>
+    <footer class="composer">
+      <div class="plus">+</div>
+      <div class="field">Сообщение</div>
+      <div class="mic">🎤</div>
+    </footer>
+  </div>
+</section>
+
+<section class="phone" data-screen="form" role="img" aria-label="Экран бота: заполнение заявки">
+  <div class="screen">
+    <header class="topbar">
+      <div class="back">‹</div>
+      <div class="avatar">К</div>
+      <div class="who">
+        <div class="name">КлассОнлайн</div>
+        <div class="status">бот · онлайн-школа</div>
+      </div>
+      <div class="dots">⋮</div>
+    </header>
+    <main class="chat">
+      <div class="day">Сегодня</div>
+      <div class="row">
+        <div class="bubble">Вы выбрали: <b>Запись на занятие</b><br><br>Как вас зовут? Напишите имя и фамилию — так администратору будет проще с вами связаться.</div>
+        <div class="meta">21:38</div>
+      </div>
+      <div class="row out">
+        <div class="bubble">Данил Зеленов</div>
+        <div class="meta">21:38 <span class="checks">✓✓</span></div>
+      </div>
+      <div class="row">
+        <div class="bubble">Укажите контакт для связи: телефон, e-mail или @username в Telegram.</div>
+        <div class="meta">21:39</div>
+      </div>
+      <div class="row out">
+        <div class="bubble">+7 900 123-45-67</div>
+        <div class="meta">21:39 <span class="checks">✓✓</span></div>
+      </div>
+      <div class="row">
+        <div class="bubble">Расскажите, на какое занятие хотите записаться: предмет, класс и удобное время.</div>
+        <div class="meta">21:39</div>
+      </div>
+      <div class="row out">
+        <div class="bubble">Подготовка к ОГЭ по информатике, 9 класс.</div>
+        <div class="meta">21:40 <span class="checks">✓✓</span></div>
+      </div>
+      <div class="row">
+        <div class="bubble">Проверьте заявку:<br><br>📌 <b>Тип:</b> Запись на занятие<br>👤 <b>Имя:</b> Данил Зеленов<br>📞 <b>Контакт:</b> +7 900 123-45-67<br>💬 <b>Сообщение:</b> Подготовка к ОГЭ по информатике, 9 класс.<br><br>Если всё верно — нажмите «✅ Отправить».</div>
+        <div class="meta">21:40</div>
+      </div>
+      <div class="keys">
+        <div class="key primary">✅ Отправить</div>
+        <div class="key">✏️ Заполнить заново</div>
+        <div class="key">✖️ Отмена</div>
+      </div>
+    </main>
+    <footer class="composer">
+      <div class="plus">+</div>
+      <div class="field">Сообщение</div>
+      <div class="mic">🎤</div>
+    </footer>
+  </div>
+</section>
+
+<section class="phone" data-screen="success" role="img" aria-label="Экран бота: заявка принята">
+  <div class="screen">
+    <header class="topbar">
+      <div class="back">‹</div>
+      <div class="avatar">К</div>
+      <div class="who">
+        <div class="name">КлассОнлайн</div>
+        <div class="status">бот · онлайн-школа</div>
+      </div>
+      <div class="dots">⋮</div>
+    </header>
+    <main class="chat">
+      <div class="day">Сегодня</div>
+      <div class="row">
+        <div class="bubble">Расскажите, на какое занятие хотите записаться: предмет, класс и удобное время.</div>
+        <div class="meta">21:39</div>
+      </div>
+      <div class="row out">
+        <div class="bubble">Подготовка к ОГЭ по информатике, 9 класс.</div>
+        <div class="meta">21:40 <span class="checks">✓✓</span></div>
+      </div>
+      <div class="row">
+        <div class="bubble">Заявка отправлена ✅<br><br>📌 <b>Тип:</b> Запись на занятие<br>👤 <b>Имя:</b> Данил Зеленов<br>📞 <b>Контакт:</b> +7 900 123-45-67<br>💬 <b>Сообщение:</b> Подготовка к ОГЭ по информатике, 9 класс.</div>
+        <div class="meta">21:40</div>
+      </div>
+      <div class="row">
+        <div class="bubble">✅ <b>Заявка №14 принята!</b><br><br>Дата: 14.11.2026 21:41<br>Тип: Запись на занятие<br><br>Администратор свяжется с вами в ближайшее время.<br>Спасибо за обращение!</div>
+        <div class="meta">21:41</div>
+      </div>
+      <div class="keys">
+        <div class="key primary">📝 Запись на занятие</div>
+        <div class="key">❓ Вопрос по курсу</div>
+        <div class="key">💬 Прочее</div>
+        <div class="key">ℹ️ Помощь</div>
+      </div>
+    </main>
+    <footer class="composer">
+      <div class="plus">+</div>
+      <div class="field">Сообщение</div>
+      <div class="mic">🎤</div>
+    </footer>
+  </div>
+</section>
+
+<section class="phone" data-screen="admin" role="img" aria-label="Экран бота: статистика администратора">
+  <div class="screen">
+    <header class="topbar">
+      <div class="back">‹</div>
+      <div class="avatar">К</div>
+      <div class="who">
+        <div class="name">КлассОнлайн</div>
+        <div class="status">бот · онлайн-школа</div>
+      </div>
+      <div class="dots">⋮</div>
+    </header>
+    <main class="chat">
+      <div class="day">Сегодня</div>
+      <div class="row out">
+        <div class="bubble">/stats</div>
+        <div class="meta">21:43 <span class="checks">✓✓</span></div>
+      </div>
+      <div class="row">
+        <div class="bubble">📊 <b>Статистика заявок</b><br><br>Всего: <b>14</b><br>Новых: <b>9</b><br>За 7 дней: <b>10</b><br><br><b>По типам</b><br>• Запись на занятие — 7<br>• Вопрос по курсу — 4<br>• Прочее — 3</div>
+        <div class="meta">21:43</div>
+      </div>
+      <div class="row out">
+        <div class="bubble">/applications 2</div>
+        <div class="meta">21:44 <span class="checks">✓✓</span></div>
+      </div>
+      <div class="row">
+        <div class="bubble">🗂 <b>Последние заявки</b><br><br><b>№14</b> · 14.11.2026 20:36<br>Запись на занятие · Роман Захаров<br>+7 926 111-22-33<br>Запишите на пробное занятие по математике, 7 класс.<br><br><b>№13</b> · 13.11.2026 10:36<br>Запись на занятие · Алиса Николаева<br>@alice_nik<br>Нужна помощь с домашними заданиями по химии, 9 класс.</div>
+        <div class="meta">21:44</div>
+      </div>
+    </main>
+    <footer class="composer">
+      <div class="plus">+</div>
+      <div class="field">Сообщение</div>
+      <div class="mic">🎤</div>
+    </footer>
+  </div>
+</section>
+
+<script>
+  const screenName = new URLSearchParams(location.search).get("screen") || "start";
+  document.querySelectorAll(".phone").forEach((phone) => {
+    phone.classList.toggle("active", phone.dataset.screen === screenName);
+  });
+</script>
+</body>
+</html>
